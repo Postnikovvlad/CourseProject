@@ -1,0 +1,1072 @@
+DataItemList.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace CourseProdject
+{
+    public class DataItemList
+    {
+        public List<DataItem> Items { get; set; }
+
+        public DataItemList(List<DataItem> items) 
+        {
+            Items = items;
+        }
+
+        public void ClearList()
+        {
+            Items.Clear();
+        }
+
+        public int[] CountFemaleAndMalePerson()
+        {
+            int[] counts = new int[2];
+            foreach (var item in Items)
+            {
+                if(item.Sex == "ЧОЛОВІЧА")
+                {
+                    counts[0]++;
+                    continue;
+                }
+
+                if(item.Sex == "ЖІНОЧА")
+                {
+                    counts[1]++;
+                    continue;
+                }
+            }
+
+            return counts;
+        }
+    }
+}
+
+DataItem.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using System.Xml.Linq;
+
+namespace CourseProdject
+{
+    [Serializable]
+    public class DataItem
+    {
+        public string Id { get; set; }
+        public string Ovd { get; set; }
+        public string Category { get; set; }
+        public string FirstNameU { get; set; }
+        public string LastNameU { get; set; }
+        public string MiddleNameU { get; set; }
+        public string FirstNameR { get; set; }
+        public string LastNameR { get; set; }
+        public string MiddleNameR { get; set; }
+        public string FirstNameE { get; set; }
+        public string LastNameE { get; set; }
+        public string MiddleNameE { get; set; }
+        public string BirthDate { get; set; }
+        public string Sex { get; set; }
+        public string LostDate { get; set; }
+        public string LostPlace { get; set; }
+        public string ArticleCrim { get; set; }
+        public string Restraint { get; set; }
+        public string Contact { get; set; }
+
+        public DataItem(string id, string ovd, string category, string firstNameU, 
+            string lastNameU, string middleNameU, string firstNameR, string lastNameR, string middleNameR, 
+            string firstNameE, string lastNameE, string middleNameE, string birthDate, string sex, string lostDate,
+            string lostPlace, string articleCrim, string restraint, string contact)
+        {
+            Id = id;
+            Ovd = ovd;
+            Category = category;
+            FirstNameU = firstNameU;
+            LastNameU = lastNameU;
+            MiddleNameU = middleNameU;
+            FirstNameR = firstNameR;
+            LastNameR = lastNameR;
+            MiddleNameR = middleNameR;
+            FirstNameE = firstNameE;
+            LastNameE = lastNameE;
+            MiddleNameE = middleNameE;
+            BirthDate = birthDate;
+            Sex = sex;
+            LostDate = lostDate;
+            LostPlace = lostPlace;
+            ArticleCrim = articleCrim;
+            Restraint = restraint;
+            Contact = contact;
+        }
+        public override string ToString()
+        {
+            return $"{Id.PadRight(16)}\t{Ovd.PadRight(150)}\t{Category.PadRight(200)}" +
+                $"\t{FirstNameU.PadRight(20)}\t{LastNameU.PadRight(20)}\t{MiddleNameU.PadRight(20)}" +
+                $"\t{FirstNameR.PadRight(20)}\t{LastNameR.PadRight(20)}\t{MiddleNameR.PadRight(20)}" +
+                $"\t{FirstNameE.PadRight(20)}\t{LastNameE.PadRight(20)}\t{MiddleNameE.PadRight(20)}" +
+                $"\t{BirthDate.PadRight(12)}\t{Sex.PadRight(10)}\t{LostDate.PadRight(12)}\t{LostPlace.PadRight(100)}" +
+                $"\t{ArticleCrim.PadRight(20)}\t{Restraint.PadRight(100)}\t{Contact.PadRight(100)}";
+        }
+    }
+}
+
+Program.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace CourseProdject
+{
+    internal static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MainForm());
+        }
+    }
+}
+
+AddForm.Designer.cs
+
+namespace CourseProdject
+{
+    partial class AddForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.Id_TextBox = new System.Windows.Forms.TextBox();
+            this.Id_Label = new System.Windows.Forms.Label();
+            this.OVD_Label = new System.Windows.Forms.Label();
+            this.OVD_ComboBox = new System.Windows.Forms.ComboBox();
+            this.Category_Label = new System.Windows.Forms.Label();
+            this.Category_ComboBox = new System.Windows.Forms.ComboBox();
+            this.FirstNameU_Label = new System.Windows.Forms.Label();
+            this.FirstNameU_TextBox = new System.Windows.Forms.TextBox();
+            this.LastNameU_Label = new System.Windows.Forms.Label();
+            this.LastNameU_TextBox = new System.Windows.Forms.TextBox();
+            this.MiddleNameU_Label = new System.Windows.Forms.Label();
+            this.MiddleNameU_TextBox = new System.Windows.Forms.TextBox();
+            this.MiddleNameR_TextBox = new System.Windows.Forms.TextBox();
+            this.MiddleNameR_Label = new System.Windows.Forms.Label();
+            this.LastNameR_TextBox = new System.Windows.Forms.TextBox();
+            this.LastNameR_Label = new System.Windows.Forms.Label();
+            this.FirstNameR_TextBox = new System.Windows.Forms.TextBox();
+            this.FirstNameR_Label = new System.Windows.Forms.Label();
+            this.MiddleNameE_TextBox = new System.Windows.Forms.TextBox();
+            this.MiddleNameE_Label = new System.Windows.Forms.Label();
+            this.LastNameE_TextBox = new System.Windows.Forms.TextBox();
+            this.LastNameE_Label = new System.Windows.Forms.Label();
+            this.FirstNameE_TextBox = new System.Windows.Forms.TextBox();
+            this.FirstNameE_Label = new System.Windows.Forms.Label();
+            this.BirthDate_Label = new System.Windows.Forms.Label();
+            this.BirthDate_MaskedTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.Sex_Label = new System.Windows.Forms.Label();
+            this.Sex_ComboBox = new System.Windows.Forms.ComboBox();
+            this.LostDate_Label = new System.Windows.Forms.Label();
+            this.LostDate_MaskedTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.LostPlace_Label = new System.Windows.Forms.Label();
+            this.LostPlace_ComboBox = new System.Windows.Forms.ComboBox();
+            this.ArticleCrim_Label = new System.Windows.Forms.Label();
+            this.ArticleCrim_TextBox = new System.Windows.Forms.TextBox();
+            this.Restraint_Label = new System.Windows.Forms.Label();
+            this.Contact_Label = new System.Windows.Forms.Label();
+            this.Restraint_ComboBox = new System.Windows.Forms.ComboBox();
+            this.Contact_TextBox = new System.Windows.Forms.TextBox();
+            this.Save_Button = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // Id_TextBox
+            // 
+            this.Id_TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Id_TextBox.Location = new System.Drawing.Point(47, 9);
+            this.Id_TextBox.MaxLength = 16;
+            this.Id_TextBox.Name = "Id_TextBox";
+            this.Id_TextBox.Size = new System.Drawing.Size(246, 30);
+            this.Id_TextBox.TabIndex = 0;
+            this.Id_TextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Id_TextBox_KeyPress);
+            // 
+            // Id_Label
+            // 
+            this.Id_Label.AutoSize = true;
+            this.Id_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Id_Label.Location = new System.Drawing.Point(2, 9);
+            this.Id_Label.Name = "Id_Label";
+            this.Id_Label.Size = new System.Drawing.Size(39, 29);
+            this.Id_Label.TabIndex = 1;
+            this.Id_Label.Text = "Id:";
+            // 
+            // OVD_Label
+            // 
+            this.OVD_Label.AutoSize = true;
+            this.OVD_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.OVD_Label.Location = new System.Drawing.Point(2, 49);
+            this.OVD_Label.Name = "OVD_Label";
+            this.OVD_Label.Size = new System.Drawing.Size(70, 29);
+            this.OVD_Label.TabIndex = 3;
+            this.OVD_Label.Text = "OVD:";
+            // 
+            // OVD_ComboBox
+            // 
+            this.OVD_ComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.OVD_ComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.OVD_ComboBox.FormattingEnabled = true;
+            this.OVD_ComboBox.Items.AddRange(new object[] {
+            "ЧЕРВОНОГРАДСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП У ЛЬВІВСЬКІЙ ОБЛАСТІ",
+            "СОЛОНЯНСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ДНІПРОВСЬКОГО ВІДДІЛУ ГУНП В ДНІПРОПЕТРОВСЬКІЙ ОБЛ" +
+                ".",
+            "КРОПИВНИЦЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В КІРОВОГРАДСЬКІЙ ОБЛАСТІ",
+            "КОМУНАРСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ДНІПРОВСЬКОГО ВІДДІЛУ ГУНП В ЗАПОРІЗЬКІЙ ОБЛАСТІ",
+            "ДНІПРОВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ЗАПОРІЗЬКІЙ ОБЛАСТІ",
+            "ЗАВОДСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ДНІПРОВСЬКОГО ВІДДІЛУ ГУНП В ЗАПОРІЗЬКІЙ ОБЛАСТІ",
+            "ШЕВЧЕНКІВСЬКЕ УПРАВЛІННЯ ПОЛІЦІЇ ГУНП В М. КИЄВІ",
+            "ТАЇРОВСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ КИЇВСЬКОГО ВІДДІЛУ ПОЛІЦІЇ В МІСТІ ОДЕСІ ГУНП В ОДЕ" +
+                "СЬКІЙ ОБЛАСТІ",
+            "ГІРНИЦЬКИЙ РВ МАКІЇВСЬКОГО МУ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "ПРИМОРСЬКИЙ ВІДДІЛ ПОЛІЦІЇ В МІСТІ ОДЕСІ ГУНП В ОДЕСЬКІЙ ОБЛАСТІ",
+            "СУВОРОВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ В МІСТІ ОДЕСІ ГУНП В ОДЕСЬКІЙ ОБЛАСТІ",
+            "ШЕВЧЕНКІВСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ПРИМОРСЬКОГО ВІДДІЛУ ПОЛІЦІЇ В МІСТІ ОДЕСІ ГУНП " +
+                "В ОДЕСЬКІЙ ОБЛАСТІ",
+            "ХАДЖИБЕЇВСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ СУВОРОВСЬКОГО ВІДДІЛУ ПОЛІЦІЇ В МІСТІ ОДЕСІ ГУНП" +
+                " В ОДЕСЬКІЙ ОБЛАСТІ",
+            "КИЇВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ В МІСТІ ОДЕСІ ГУНП В ОДЕСЬКІЙ ОБЛАСТІ",
+            "ЛИМАНСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ОДЕСЬКІЙ ОБЛАСТІ",
+            "ХМЕЛЬНИЦЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ МАЛИНОВСЬКОГО ВІДДІЛУ ПОЛІЦІЇ В МІСТІ ОДЕСІ ГУНП В" +
+                " ОДЕСЬКІЙ ОБЛАСТІ",
+            "ЦЕНТРАЛЬНО-МІСЬКИЙ РВ ГОРЛІВСЬКОГО МУ ГУМВСУ ДОНЕЦЬКОЇ ОБЛ",
+            "ДЖАНКОЛЙСЬКИЙ МРВ ГУМВС УКРАЇНИ В АР КРИМ",
+            "ШАХТАРСЬКИЙ МВ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "БУДЬОНІВСЬКИЙ РВ ДОНЕЦЬКОГО МУ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "КОСТЯНТИНІВСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ БАХМУТСЬКОГО ВІДДІЛУ ГУНП В ДОНЕЦЬКІЙ ОБЛ.",
+            "АРТЕМІВСЬКИЙ РВ ЛУГАНСЬКОГО МУ ГУМВСУ У ЛУГАНСЬКІЙ ОБЛ.",
+            "СМІЛЯНСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ЧЕРКАСЬКІЙ ОБЛАСТІ.",
+            "ЦЕНТРАЛЬНО-МІСЬКИЙ РВ МАКІЇВСЬКОГО МУ ГУМВСУ ДОНЕЦЬКОЇ ОБЛ.",
+            "ЧЕРКАСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ЧЕРКАСЬКІЙ ОБЛАСТІ.",
+            "САКСЬКИЙ РВ ГУМВС УКРАЇНИ В АР КРИМ",
+            "КОРАБЕЛЬНЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ХЕРСОНСЬКОГО ВІДДІЛУ ГУ НП В ХЕРСОНСЬКІЙ ОБЛАСТІ",
+            "ЗВЕНИГОРОДСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ЧЕРКАСЬКІЙ ОБЛАСТІ.",
+            "ЗАЛІЗНИЧНИЙ РВ СІМФЕРОПОЛЬСЬКОГО МВ ГУМВС УКРАЇНИ В АР КРИМ",
+            "СУМСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В СУМСЬКІЙ ОБЛАСТІ",
+            "БІЛОПІЛЬСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ СУМСЬКОГО РАЙОННОГО ВІДДІЛУ ГУНП В СУМСЬКІЙ ОБЛАС" +
+                "ТІ",
+            "РАХІВСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ТЯЧІВСЬКОГО ВІДДІЛУ ГУНП В ЗАКАРПАТСЬКІЙ ОБЛАСТІ",
+            "УЖГОРОДСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ЗАКАРПАТСЬКІЙ ОБЛАСТІ",
+            "МУКАЧІВСЬКЕ РАЙОННЕ ВІДДІЛЕННЯ ПОЛІЦІЇ МУКАЧІВСЬКОГО ВІДДІЛУ ГУНП В ЗАКАРПАТСЬКІЙ" +
+                " ОБЛАСТІ",
+            "ШЕВЧЕНКІВСЬКИЙ  ВІДДІЛ ПОЛІЦІЇ ГУНП В ХАРКІВСЬКІЙ ОБЛАСТІ",
+            "МОСКОВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ХАРКІВСЬКІЙ ОБЛАСТІ",
+            "КАМ’ЯНОБРІДСЬКИЙ РВ ЛУГАНСЬКОГО МУ ГУМВСУ У ЛУГАНСЬКІЙ ОБЛ.",
+            "ФРАНКІВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП У ЛЬВІВСЬКІЙ ОБЛАСТІ",
+            "ШЕВЧЕНКІВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП У ЛЬВІВСЬКІЙ ОБЛАСТІ",
+            "ЧУГУЇВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ХАРКІВСЬКІЙ ОБЛАСТІ",
+            "ЦЕНТРАЛЬНИЙ РВ СІМФЕРОПОЛЬСЬКОГО МВ ГУМВС УКРАЇНИ В АР КРИМ",
+            "НІЖИНСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ЧЕРНІГІВСЬКІЙ ОБЛАСТІ.",
+            "ДАРНИЦЬКЕ УПРАВЛІННЯ ПОЛІЦІЇ ГУНП В М. КИЄВІ",
+            "ЄНАКІЄВСЬКИЙ МВ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "ГОЛОСІЇВСЬКЕ УПРАВЛІННЯ ПОЛІЦІЇ ГУНП В М. КИЄВІ",
+            "ДНІПРОВСЬКЕ УПРАВЛІННЯ ПОЛІЦІЇ ГУНП В М. КИЄВІ",
+            "ЯКИМІВСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ МЕЛІТОПОЛЬСЬКОГО ВІДДІЛУ ГУНП В ЗАПОРІЗЬКІЙ ОБЛАСТІ" +
+                "",
+            "ЗАПОРІЗЬКЕ РАЙОННЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ДНІПРОВСЬКОГО ВІДДІЛУ ГУНП В ЗАПОРІЗЬКІЙ ОБ" +
+                "ЛАСТІ",
+            "ОБУХІВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В КИЇВСЬКІЙ ОБЛАСТІ",
+            "ВИШГОРОДСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В КИЇВСЬКІЙ ОБЛАСТІ",
+            "ОСНОВ’ЯНСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ХАРКІВСЬКІЙ ОБЛАСТІ",
+            "ЖОВТНЕВИЙ РВ ЛУГАНСЬКОГО МУ ГУМВСУ У ЛУГАНСЬКІЙ ОБЛ.",
+            "ПЕРВОМАЙСЬКИЙ МВ ГУМВСУ У ЛУГАНСЬКІЙ ОБЛ.",
+            "СТАРОБЕШІВСЬКИЙ РВ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "ТОРЕЦЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ БАХМУТСЬКОГО ВІДДІЛУ ГУНП В ДОНЕЦЬКІЙ ОБЛ.",
+            "ДОБРОПІЛЬСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ПОКРОВСЬКОГО ВІДДІЛУ ГУНП В ДОНЕЦЬКІЙ ОБЛ.",
+            "РІВНЕНСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В РІВНЕНСЬКІЙ ОБЛ.",
+            "ВІДДІЛЕННЯ ПОЛІЦІЇ №1 ПОЛТАВСЬКОГО ВІДДІЛУ ГУНП В ПОЛТАВСЬКІЙ ОБЛАСТІ",
+            "КРАСНОВГАРДІЙСЬКИЙ РВ ГУМВС УКРАЇНИ В АР КРИМ",
+            "ХОЛОДНОГІРСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ХАРКІВСЬКІЙ ОБЛАСТІ",
+            "НИЖНЬОГІРСЬКИЙ РВ ГУМВС УКРАЇНИ В АР КРИМ",
+            "ФАСТІВСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ВАСИЛЬКІВСЬКОГО ВІДДІЛУ ГУНП В КИЇВСЬКІЙ ОБЛАСТІ",
+            "КІРОВСЬКИЙ РВ МАКІЇВСЬКОГО МУ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "КРАСНОПЕРЕКОПСЬКИЙ РВ ГУМВС УКРАЇНИ В АР КРИМ",
+            "СОБОРНЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ДНІПРОВСЬКОГО ВІДДІЛУ ГУНП В ДНІПРОПЕТРОВСЬКІЙ ОБЛ.",
+            "ЛЕНІНСЬКИЙ РВ ГУМВС УКРАЇНИ В АР КРИМ",
+            "МИКИТІВСЬКИЙ РВ ГОРЛІВСЬКОГО МУ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "ЛЕНІНСЬКИЙ РВ ЛУГАНСЬКОГО МУ ГУМВСУ У ЛУГАНСЬКІЙ ОБЛ.",
+            "ТУЛЬЧИНСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ НЕМИРІВСЬКОГО ВІДДІЛУ ГУНП У ВІННИЦЬКІЙ ОБЛАСТІ",
+            "ЛЮБОТИНСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ХАРКІВСЬКОГО ВІДДІЛУ ГУНП В ХАРКІВСЬКІЙ ОБЛАСТІ",
+            "СОВЄТСЬКИЙ РВ МАКІЇВСЬКОГО МУ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "ЗАВОДСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В МИКОЛАЇВСЬКІЙ ОБЛАСТІ",
+            "ДРУЖКІВСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ КРАМАТОРСЬКОГО  ВІДДІЛУ ГУНП В ДОНЕЦЬКІЙ ОБЛ.",
+            "АЛУШТИНСЬКИЙ МВ ГУМВС УКРАЇНИ АР КРИМ",
+            "КИЇВСЬКИЙ РВ СІМФЕРОПОЛЬСЬКОГО МВ ГУМВС УКРАЇНИ В АР КРИМ",
+            "КУЙБИШЕВСЬКИЙ РВ ДОНЕЦЬКОГО МУ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "ДЕРГАЧІВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ХАРКІВСЬКІЙ ОБЛАСТІ",
+            "ВЕЛИКОНОВОСІЛКІВСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ВОЛНОВАСЬКОГО ВІДДІЛУ ГУНП В ДОНЕЦЬКІЙ ОБ" +
+                "Л.",
+            "ТОРЕЗЬКИЙ МВ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "АНТРАЦИТІВСЬКИЙ МВ ГУМВСУ У ЛУГАНСЬКІЙ ОБЛ.",
+            "ЗАЛІЗНИЧНИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП У ЛЬВІВСЬКІЙ ОБЛАСТІ",
+            "ХМЕЛЬНИЦЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ХМЕЛЬНИЦЬКІЙ ОБЛАСТІ",
+            "ВІННИЦЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП У ВІННИЦЬКІЙ ОБЛАСТІ",
+            "ЯВОРІВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП У ЛЬВІВСЬКІЙ ОБЛАСТІ",
+            "БІЛОЦЕРКІВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В КИЇВСЬКІЙ ОБЛАСТІ",
+            "КЕРЧЕНСЬКЕ ГВ АР Крим",
+            "МІЖГІРСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ХУСТСЬКОГО ВІДДІЛУ ГУНП В ЗАКАРПАТСЬКІЙ ОБЛАСТІ",
+            "ОРІХІВСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ПОЛОГІВСЬКОГО ВІДДІЛУ ГУНП В ЗАПОРІЗЬКІЙ ОБЛАСТІ",
+            "МЕЛІТОПОЛЬСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ЗАПОРІЗЬКІЙ ОБЛАСТІ",
+            "ЧЕРНІГІВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ЧЕРНІГІВСЬКІЙ ОБЛАСТІ.",
+            "ПОДІЛЬСЬКЕ УПРАВЛІННЯ ПОЛІЦІЇ ГУНП В М. КИЄВІ",
+            "ЄВПАТОРІЙСЬКЕ МВ ГУ МВС УКРАЇНИ В АР КРИМ",
+            "ВІДДІЛЕННЯ ПОЛІЦІЇ В АЕРОПОРТУ КИЇВ СОЛОМ\'ЯНСЬКОГО УПРАВЛІННЯ ГУНП В М. КИЄВІ",
+            "ТЯЧІВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ЗАКАРПАТСЬКІЙ ОБЛАСТІ",
+            "ЯСИНУВАТСЬКИЙ МВ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "ЯЛТИНСЬКЕ МУ СІМФЕРОПОЛЬСЬКОГО МВ ГУМВС УКРАЇНИ В АР КИМ",
+            "БАХЧИСАРАЙСЬКИЙ РВ ГУМВС УКРАЇНИ В АР КРИМ",
+            "СІМФЕРОПОЛЬСЬКИЙ РВ ГУМВС УКРАЇНИ В АР КРИМ",
+            "ОБОЛОНСЬКЕ УПРАВЛІННЯ ПОЛІЦІЇ ГУНП В М. КИЄВІ",
+            "ПЕРШОМАЙСЬКИЙ РВ ГУМВС УКРАЇНИ В АР КРИМ",
+            "ГАЛИЦЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП У ЛЬВІВСЬКІЙ ОБЛАСТІ",
+            "МИРНОГРАДСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ПОКРОВСЬКОГО ВІДДІЛУ ГУНП В ДОНЕЦЬКІЙ ОБЛ.",
+            "ІЗЮМСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ХАРКІВСЬКІЙ ОБЛАСТІ",
+            "ПЕРВОМАЙСЬКИЙ ВІДДІЛ ГУНП В ХАРКІВСЬКІЙ ОБЛАСТІ",
+            "ПОЛТАВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ПОЛТАВСЬКІЙ ОБЛАСТІ",
+            "ТЕРНОПІЛЬСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ТЕРНОПІЛЬСЬКІЙ ОБЛАСТІ",
+            "ЧЕРВОНОГВАРДІЙСЬКИЙ РВ МАКІЇВСЬКОГО МУ ГУМВСУ ДОНЕЦЬКОЇ ОБЛ.",
+            "ДУБЕНСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В РІВНЕНСЬКІЙ ОБЛ.",
+            "ДНІПРОРУДНЕНСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ВАСИЛІВСЬКОГО ВІДДІЛУ ГУНП В ЗАПОРІЗЬКІЙ ОБЛА" +
+                "СТІ",
+            "САМБІРСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП У ЛЬВІВСЬКІЙ ОБЛАСТІ",
+            "ПОКРОВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ДОНЕЦЬКІЙ ОБЛ.",
+            "ЛЕНІНСЬКИЙ РВ СЕВАСТОПОЛЬСЬКОГО МУ",
+            "ІНГУЛЬСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В МИКОЛАЇВСЬКІЙ ОБЛАСТІ",
+            "АРМЯНСЬКИЙ ПВМ ГУМВС УКРАЇНИ В АР КРИМ",
+            "АМВРОСІЇВСЬКИЙ РВ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "ПУСТОМИТІВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП У ЛЬВІВСЬКІЙ ОБЛАСТІ",
+            "ФЕОДОСІЙСЬКЕ МВ ГУ МВС УКРАЇНИ В АР КРИМ",
+            "СНІЖНЯНСЬКИЙ МВ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "СУДАЦЬКИЙ МВ ГУМВС УКРАЇНИ В АР КРИМ",
+            "ГОРОДОЦЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ЯВОРІВСЬКОГО ВІДДІЛУ ГУНП У ЛЬВІВСЬКІЙ ОБЛАСТІ",
+            "ЧОРТКІВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ТЕРНОПІЛЬСЬКІЙ ОБЛАСТІ",
+            "БЄЛОГІРСЬКИЙ РВ ГУМВС УКРАЇНИ В АР КРИМ",
+            "ХОРТИЦЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ДНІПРОВСЬКОГО ВІДДІЛУ ГУНП В ЗАПОРІЗЬКІЙ ОБЛАСТІ",
+            "БЕРДЯНСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ЗАПОРІЗЬКІЙ ОБЛАСТІ",
+            "КИЇВСЬКИЙ РВ ДОНЕЦЬКОГО МУ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "СТРИЙСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП У ЛЬВІВСЬКІЙ ОБЛАСТІ",
+            "КІРОВСЬКИЙ РВ ДОНЕЦЬКОГО МУ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "ІВАНІВСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ КАХОВСЬКОГО ВІДДІЛУ ГУ НП В ХЕРСОНСЬКІЙ ОБЛАСТІ",
+            "ЛІВОБЕРЕЖНЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ЦЕНТРАЛЬНОГО ВІДДІЛУ ГУНП В ДОНЕЦЬКІЙ ОБЛ.",
+            "КІРОВСЬКИЙ РВ ГУМВ С УКРАЇНИ В АР КРИМ",
+            "МАЛИНОВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ В МІСТІ ОДЕСІ ГУНП В ОДЕСЬКІЙ ОБЛАСТІ",
+            "СВЕРДЛОВСЬКИЙ МВ ГУМВСУ У ЛУГАНСЬКІЙ ОБЛ.",
+            "БІЛЯЇВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ОДЕСЬКІЙ ОБЛАСТІ",
+            "БІЛОЗЕРСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ХЕРСОНСЬКОГО ВІДДІЛУ ГУ НП В ХЕРСОНСЬКІЙ ОБЛАСТІ",
+            "НОВГОРОД-СІВЕРСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ЧЕРНІГІВСЬКІЙ ОБЛАСТІ.",
+            "ТОКМАЦЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ПОЛОГІВСЬКОГО ВІДДІЛУ ГУНП В ЗАПОРІЗЬКІЙ ОБЛАСТІ",
+            "СИХІВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП У ЛЬВІВСЬКІЙ ОБЛАСТІ",
+            "МАР’ЇНСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ВОЛНОВАСЬКОГО ВІДДІЛУ ГУНП В ДОНЕЦЬКІЙ ОБЛ.",
+            "ДЕСНЯНСЬКЕ УПРАВЛІННЯ ПОЛІЦІЇ ГУНП В М. КИЄВІ",
+            "УПРАВЛІННЯ ПОЛІЦІЇ В МЕТРОПОЛІТЕНІ ГУНП В М. КИЄВІ",
+            "СВЯТОШИНСЬКЕ УПРАВЛІННЯ ПОЛІЦІЇ ГУНП В М. КИЄВІ",
+            "ХАРЦИЗЬКИЙ МВ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "КАЛІНІНСЬКИЙ РВ ДОНЕЦЬКОГО МУ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "ВІДДІЛЕННЯ ПОЛІЦІЇ В ПОРТУ ЗАПОРІЖЖЯ ГУНП В ЗАПОРІЗЬКІЙ ОБЛАСТІ",
+            "НОВОАЗОВСЬКИЙ РВ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "ВОРОШИЛОВСЬКИЙ РВ ДОНЕЦЬКОГО МУ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "ВОЛНОВАСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ДОНЕЦЬКІЙ ОБЛ.",
+            "ЛЕНІНСЬКИЙ РВ ДОНЕЦЬКОГО МУ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "КАЛІНІНСЬКИЙ РВ ГОРЛІВСЬКОГО МУ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "ПРИАЗОВСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ МЕЛІТОПОЛЬСЬКОГО ВІДДІЛУ ГУНП В ЗАПОРІЗЬКІЙ ОБЛАСТ" +
+                "І",
+            "БАХМУТСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ДОНЕЦЬКІЙ ОБЛ.",
+            "ЛУЦЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП У ВОЛИНСЬКІЙ ОБЛАСТІ",
+            "ПЕЧЕРСЬКЕ УПРАВЛІННЯ ПОЛІЦІЇ ГУНП В М. КИЄВІ",
+            "ГАГАРИНСЬКИЙ РВ СЕВАСТОПОЛЬСЬКОГО МУ",
+            "ПОДІЛЬСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ОДЕСЬКІЙ ОБЛАСТІ",
+            "КІРОВСЬКИЙ МВ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "НОВОБУЗЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В МИКОЛАЇВСЬКІЙ ОБЛАСТІ",
+            "КИЇВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ХАРКІВСЬКІЙ ОБЛАСТІ",
+            "ТЕЛЬМАНІВСЬКИЙ РВ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "СТАХАНОВСЬКИЙ МВ ГУМВСУ У ЛУГАНСЬКІЙ ОБЛ.",
+            "ГОЛОВНЕ УПРАВЛІННЯ НАЦІОНАЛЬНОЇ ПОЛІЦІЇ В ЧЕРНІВЕЦЬКІЙ ОБЛАСТІ",
+            "ВІДДІЛЕННЯ ПОЛІЦІЇ №1 КРЕМЕНЧУЦЬКОГО ВІДДІЛУ ГУНП В ПОЛТАВСЬКІЙ ОБЛАСТІ",
+            "РОВЕНЬКІВСЬКИЙ МВ ГУМВСУ У ЛУГАНСЬКІЙ ОБЛ.",
+            "КРАСНОЛУЦЬКИЙ МВ ГУМВСУ У ЛУГАНСЬКІЙ ОБЛ.",
+            "ВАСИЛЬКІВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В КИЇВСЬКІЙ ОБЛАСТІ",
+            "ТЕРНІВСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ КРИВОРІЗЬКОГО ВІДДІЛУ ГУНП В ДНІПРОПЕТРОВСЬКІЙ ОБЛ." +
+                "",
+            "ГУМВС УКРАЇНИ В АР КРИМ",
+            "ІВАНО-ФРАНКІВСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ІВАНО-ФРАНКІВСЬКІЙ ОБЛАСТІ",
+            "КАЛЬМІУСЬКЕ ВІДДІЛЕННЯ ПОЛІЦІЇ ЦЕНТРАЛЬНОГО ВІДДІЛУ ГУНП В ДОНЕЦЬКІЙ ОБЛ.",
+            "КРАСНОДОНСЬКИЙ МВ ГУМВСУ У ЛУГАНСЬКІЙ ОБЛ.",
+            "ПРОЛЕТАРСЬКИЙ РВ ДОНЕЦЬКОГО МУ ГУМВСУ В ДОНЕЦЬКІЙ ОБЛ.",
+            "КАМ’ЯНЕЦЬ-ПОДІЛЬСЬКИЙ ВІДДІЛ ПОЛІЦІЇ ГУНП В ХМЕЛЬНИЦЬКІЙ ОБЛАСТІ",
+            "РОЗДОЛЬНЕНСЬКИЙ РВ ГУМВС УКРАЇНИ В АР КРИМ"});
+            this.OVD_ComboBox.Location = new System.Drawing.Point(78, 49);
+            this.OVD_ComboBox.Name = "OVD_ComboBox";
+            this.OVD_ComboBox.Size = new System.Drawing.Size(1159, 33);
+            this.OVD_ComboBox.TabIndex = 4;
+            // 
+            // Category_Label
+            // 
+            this.Category_Label.AutoSize = true;
+            this.Category_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Category_Label.Location = new System.Drawing.Point(2, 89);
+            this.Category_Label.Name = "Category_Label";
+            this.Category_Label.Size = new System.Drawing.Size(116, 29);
+            this.Category_Label.TabIndex = 5;
+            this.Category_Label.Text = "Category:";
+            // 
+            // Category_ComboBox
+            // 
+            this.Category_ComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Category_ComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Category_ComboBox.FormattingEnabled = true;
+            this.Category_ComboBox.Items.AddRange(new object[] {
+            "ЗАСУДЖЕНИЙ ДО КРИМІНАЛЬНОГО (АДМІНІСТРАТИВНОГО) ПОКАРАННЯ, НЕ ПОВ’ЯЗАНОГО З ОБМЕЖ" +
+                "ЕННЯМ ВОЛІ, ВІДСУТНІЙ З НЕВІДОМИХ ПРИЧИН ЗА МІСЦЕМ ПРОЖИВАННЯ АБО РОБОТИ",
+            "ОСОБА, ЯКА ПЕРЕХОВУЄТЬСЯ ВІД СУДУ",
+            "ВІДПОВІДАЧ У СПРАВАХ ЗА ПОЗОВАМИ ПРО СТЯГНЕННЯ АЛІМЕНТІВ",
+            "ОСОБА, ЯКА ПЕРЕХОВУЄТЬСЯ ВІД ОРГАНІВ ДОСУДОВОГО РОЗСЛІДУВАННЯ",
+            "ОСОБА, ЯКА ПЕРЕХОВУЄТЬСЯ ВІД ОРГАНІВ ПРОКУРАТУРИ",
+            "ЗАСУДЖЕНИЙ ДО ПОКАРАННЯ У ВИГЛЯДІ ПОЗБАВЛЕННЯ ВОЛІ, ЯКИЙ УХИЛЯЄТЬСЯ ВІД ВИКОНАННЯ" +
+                " ВИРОКУ СУДУ",
+            "ДЕЗЕРТИР (МО, СБУ, МВС УКРАЇНИ)",
+            "ПСИХІЧНО ХВОРА АБО БЕЗПОРАДНА ОСОБА, ЯКА ПІШЛА З ДОМУ АБО СПЕЦЗАКЛАДУ ОРГАНІВ ОХО" +
+                "РОНИ ЗДОРОВ’Я",
+            "СОЦІАЛЬНО НЕБЕЗПЕЧНА ПСИХІЧНО ХВОРА ОСОБА, ЯКА ПІШЛА З ДОМУ АБО ЗДІЙСНИЛА ВТЕЧУ І" +
+                "З СПЕЦЗАКЛАДУ ОРГАНІВ ОХОРОНИ ЗДОРОВ’Я"});
+            this.Category_ComboBox.Location = new System.Drawing.Point(124, 89);
+            this.Category_ComboBox.Name = "Category_ComboBox";
+            this.Category_ComboBox.Size = new System.Drawing.Size(1113, 33);
+            this.Category_ComboBox.TabIndex = 6;
+            // 
+            // FirstNameU_Label
+            // 
+            this.FirstNameU_Label.AutoSize = true;
+            this.FirstNameU_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FirstNameU_Label.Location = new System.Drawing.Point(2, 129);
+            this.FirstNameU_Label.Name = "FirstNameU_Label";
+            this.FirstNameU_Label.Size = new System.Drawing.Size(148, 29);
+            this.FirstNameU_Label.TabIndex = 7;
+            this.FirstNameU_Label.Text = "FirstNameU:";
+            // 
+            // FirstNameU_TextBox
+            // 
+            this.FirstNameU_TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FirstNameU_TextBox.Location = new System.Drawing.Point(156, 129);
+            this.FirstNameU_TextBox.Name = "FirstNameU_TextBox";
+            this.FirstNameU_TextBox.Size = new System.Drawing.Size(224, 30);
+            this.FirstNameU_TextBox.TabIndex = 8;
+            this.FirstNameU_TextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxAnySymbol_KeyPress);
+            // 
+            // LastNameU_Label
+            // 
+            this.LastNameU_Label.AutoSize = true;
+            this.LastNameU_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.LastNameU_Label.Location = new System.Drawing.Point(2, 169);
+            this.LastNameU_Label.Name = "LastNameU_Label";
+            this.LastNameU_Label.Size = new System.Drawing.Size(145, 29);
+            this.LastNameU_Label.TabIndex = 9;
+            this.LastNameU_Label.Text = "LastNameU:";
+            // 
+            // LastNameU_TextBox
+            // 
+            this.LastNameU_TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.LastNameU_TextBox.Location = new System.Drawing.Point(153, 169);
+            this.LastNameU_TextBox.Name = "LastNameU_TextBox";
+            this.LastNameU_TextBox.Size = new System.Drawing.Size(224, 30);
+            this.LastNameU_TextBox.TabIndex = 10;
+            this.LastNameU_TextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxAnySymbol_KeyPress);
+            // 
+            // MiddleNameU_Label
+            // 
+            this.MiddleNameU_Label.AutoSize = true;
+            this.MiddleNameU_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.MiddleNameU_Label.Location = new System.Drawing.Point(2, 209);
+            this.MiddleNameU_Label.Name = "MiddleNameU_Label";
+            this.MiddleNameU_Label.Size = new System.Drawing.Size(175, 29);
+            this.MiddleNameU_Label.TabIndex = 11;
+            this.MiddleNameU_Label.Text = "MiddleNameU:";
+            // 
+            // MiddleNameU_TextBox
+            // 
+            this.MiddleNameU_TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.MiddleNameU_TextBox.Location = new System.Drawing.Point(183, 209);
+            this.MiddleNameU_TextBox.Name = "MiddleNameU_TextBox";
+            this.MiddleNameU_TextBox.Size = new System.Drawing.Size(224, 30);
+            this.MiddleNameU_TextBox.TabIndex = 12;
+            this.MiddleNameU_TextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxAnySymbol_KeyPress);
+            // 
+            // MiddleNameR_TextBox
+            // 
+            this.MiddleNameR_TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.MiddleNameR_TextBox.Location = new System.Drawing.Point(599, 209);
+            this.MiddleNameR_TextBox.Name = "MiddleNameR_TextBox";
+            this.MiddleNameR_TextBox.Size = new System.Drawing.Size(224, 30);
+            this.MiddleNameR_TextBox.TabIndex = 18;
+            this.MiddleNameR_TextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxAnySymbol_KeyPress);
+            // 
+            // MiddleNameR_Label
+            // 
+            this.MiddleNameR_Label.AutoSize = true;
+            this.MiddleNameR_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.MiddleNameR_Label.Location = new System.Drawing.Point(418, 209);
+            this.MiddleNameR_Label.Name = "MiddleNameR_Label";
+            this.MiddleNameR_Label.Size = new System.Drawing.Size(175, 29);
+            this.MiddleNameR_Label.TabIndex = 17;
+            this.MiddleNameR_Label.Text = "MiddleNameR:";
+            // 
+            // LastNameR_TextBox
+            // 
+            this.LastNameR_TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.LastNameR_TextBox.Location = new System.Drawing.Point(572, 169);
+            this.LastNameR_TextBox.Name = "LastNameR_TextBox";
+            this.LastNameR_TextBox.Size = new System.Drawing.Size(224, 30);
+            this.LastNameR_TextBox.TabIndex = 16;
+            this.LastNameR_TextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxAnySymbol_KeyPress);
+            // 
+            // LastNameR_Label
+            // 
+            this.LastNameR_Label.AutoSize = true;
+            this.LastNameR_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.LastNameR_Label.Location = new System.Drawing.Point(418, 169);
+            this.LastNameR_Label.Name = "LastNameR_Label";
+            this.LastNameR_Label.Size = new System.Drawing.Size(145, 29);
+            this.LastNameR_Label.TabIndex = 15;
+            this.LastNameR_Label.Text = "LastNameR:";
+            // 
+            // FirstNameR_TextBox
+            // 
+            this.FirstNameR_TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FirstNameR_TextBox.Location = new System.Drawing.Point(572, 129);
+            this.FirstNameR_TextBox.Name = "FirstNameR_TextBox";
+            this.FirstNameR_TextBox.Size = new System.Drawing.Size(224, 30);
+            this.FirstNameR_TextBox.TabIndex = 14;
+            this.FirstNameR_TextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxAnySymbol_KeyPress);
+            // 
+            // FirstNameR_Label
+            // 
+            this.FirstNameR_Label.AutoSize = true;
+            this.FirstNameR_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FirstNameR_Label.Location = new System.Drawing.Point(418, 129);
+            this.FirstNameR_Label.Name = "FirstNameR_Label";
+            this.FirstNameR_Label.Size = new System.Drawing.Size(148, 29);
+            this.FirstNameR_Label.TabIndex = 13;
+            this.FirstNameR_Label.Text = "FirstNameR:";
+            // 
+            // MiddleNameE_TextBox
+            // 
+            this.MiddleNameE_TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.MiddleNameE_TextBox.Location = new System.Drawing.Point(1014, 208);
+            this.MiddleNameE_TextBox.Name = "MiddleNameE_TextBox";
+            this.MiddleNameE_TextBox.Size = new System.Drawing.Size(224, 30);
+            this.MiddleNameE_TextBox.TabIndex = 24;
+            this.MiddleNameE_TextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxAnySymbol_KeyPress);
+            // 
+            // MiddleNameE_Label
+            // 
+            this.MiddleNameE_Label.AutoSize = true;
+            this.MiddleNameE_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.MiddleNameE_Label.Location = new System.Drawing.Point(834, 209);
+            this.MiddleNameE_Label.Name = "MiddleNameE_Label";
+            this.MiddleNameE_Label.Size = new System.Drawing.Size(174, 29);
+            this.MiddleNameE_Label.TabIndex = 23;
+            this.MiddleNameE_Label.Text = "MiddleNameE:";
+            // 
+            // LastNameE_TextBox
+            // 
+            this.LastNameE_TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.LastNameE_TextBox.Location = new System.Drawing.Point(984, 169);
+            this.LastNameE_TextBox.Name = "LastNameE_TextBox";
+            this.LastNameE_TextBox.Size = new System.Drawing.Size(224, 30);
+            this.LastNameE_TextBox.TabIndex = 22;
+            this.LastNameE_TextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxAnySymbol_KeyPress);
+            // 
+            // LastNameE_Label
+            // 
+            this.LastNameE_Label.AutoSize = true;
+            this.LastNameE_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.LastNameE_Label.Location = new System.Drawing.Point(834, 169);
+            this.LastNameE_Label.Name = "LastNameE_Label";
+            this.LastNameE_Label.Size = new System.Drawing.Size(144, 29);
+            this.LastNameE_Label.TabIndex = 21;
+            this.LastNameE_Label.Text = "LastNameE:";
+            // 
+            // FirstNameE_TextBox
+            // 
+            this.FirstNameE_TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FirstNameE_TextBox.Location = new System.Drawing.Point(987, 129);
+            this.FirstNameE_TextBox.Name = "FirstNameE_TextBox";
+            this.FirstNameE_TextBox.Size = new System.Drawing.Size(224, 30);
+            this.FirstNameE_TextBox.TabIndex = 20;
+            this.FirstNameE_TextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxAnySymbol_KeyPress);
+            // 
+            // FirstNameE_Label
+            // 
+            this.FirstNameE_Label.AutoSize = true;
+            this.FirstNameE_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FirstNameE_Label.Location = new System.Drawing.Point(834, 129);
+            this.FirstNameE_Label.Name = "FirstNameE_Label";
+            this.FirstNameE_Label.Size = new System.Drawing.Size(147, 29);
+            this.FirstNameE_Label.TabIndex = 19;
+            this.FirstNameE_Label.Text = "FirstNameE:";
+            // 
+            // BirthDate_Label
+            // 
+            this.BirthDate_Label.AutoSize = true;
+            this.BirthDate_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.BirthDate_Label.Location = new System.Drawing.Point(2, 249);
+            this.BirthDate_Label.Name = "BirthDate_Label";
+            this.BirthDate_Label.Size = new System.Drawing.Size(118, 29);
+            this.BirthDate_Label.TabIndex = 25;
+            this.BirthDate_Label.Text = "BirthDate:";
+            // 
+            // BirthDate_MaskedTextBox
+            // 
+            this.BirthDate_MaskedTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.BirthDate_MaskedTextBox.Location = new System.Drawing.Point(126, 249);
+            this.BirthDate_MaskedTextBox.Mask = "0000-00-00";
+            this.BirthDate_MaskedTextBox.Name = "BirthDate_MaskedTextBox";
+            this.BirthDate_MaskedTextBox.Size = new System.Drawing.Size(121, 30);
+            this.BirthDate_MaskedTextBox.TabIndex = 26;
+            this.BirthDate_MaskedTextBox.ValidatingType = typeof(System.DateTime);
+            // 
+            // Sex_Label
+            // 
+            this.Sex_Label.AutoSize = true;
+            this.Sex_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Sex_Label.Location = new System.Drawing.Point(2, 289);
+            this.Sex_Label.Name = "Sex_Label";
+            this.Sex_Label.Size = new System.Drawing.Size(60, 29);
+            this.Sex_Label.TabIndex = 27;
+            this.Sex_Label.Text = "Sex:";
+            // 
+            // Sex_ComboBox
+            // 
+            this.Sex_ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Sex_ComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Sex_ComboBox.FormattingEnabled = true;
+            this.Sex_ComboBox.Items.AddRange(new object[] {
+            "ЧОЛОВІЧА",
+            "ЖІНОЧА"});
+            this.Sex_ComboBox.Location = new System.Drawing.Point(68, 289);
+            this.Sex_ComboBox.Name = "Sex_ComboBox";
+            this.Sex_ComboBox.Size = new System.Drawing.Size(179, 33);
+            this.Sex_ComboBox.TabIndex = 28;
+            // 
+            // LostDate_Label
+            // 
+            this.LostDate_Label.AutoSize = true;
+            this.LostDate_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.LostDate_Label.Location = new System.Drawing.Point(2, 329);
+            this.LostDate_Label.Name = "LostDate_Label";
+            this.LostDate_Label.Size = new System.Drawing.Size(114, 29);
+            this.LostDate_Label.TabIndex = 29;
+            this.LostDate_Label.Text = "LostDate:";
+            // 
+            // LostDate_MaskedTextBox
+            // 
+            this.LostDate_MaskedTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.LostDate_MaskedTextBox.Location = new System.Drawing.Point(122, 329);
+            this.LostDate_MaskedTextBox.Mask = "0000-00-00";
+            this.LostDate_MaskedTextBox.Name = "LostDate_MaskedTextBox";
+            this.LostDate_MaskedTextBox.Size = new System.Drawing.Size(121, 30);
+            this.LostDate_MaskedTextBox.TabIndex = 30;
+            this.LostDate_MaskedTextBox.ValidatingType = typeof(System.DateTime);
+            // 
+            // LostPlace_Label
+            // 
+            this.LostPlace_Label.AutoSize = true;
+            this.LostPlace_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.LostPlace_Label.Location = new System.Drawing.Point(2, 369);
+            this.LostPlace_Label.Name = "LostPlace_Label";
+            this.LostPlace_Label.Size = new System.Drawing.Size(125, 29);
+            this.LostPlace_Label.TabIndex = 31;
+            this.LostPlace_Label.Text = "LostPlace:";
+            // 
+            // LostPlace_ComboBox
+            // 
+            this.LostPlace_ComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.LostPlace_ComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.LostPlace_ComboBox.FormattingEnabled = true;
+            this.LostPlace_ComboBox.Items.AddRange(new object[] {
+            "ЛЬВІВСЬКА, ЧЕРВОНОГРАД",
+            "ДНЕПРОПЕТРОВСКАЯ, МАГДАЛИНОВСКИЙ, ЧЕРНЕТЧИНА",
+            "КИРОВОГРАДСКАЯ, КИРОВОГРАД",
+            "ЗАПОРІЗЬКА, ЗАПОРІЖЖЯ",
+            "КИЕВ",
+            "ОДЕСЬКА, КИЇВСЬКИЙ, ОДЕСА",
+            "ДОНЕЦКАЯ, МАКЕЕВКА",
+            "ОДЕСЬКА, ОДЕСА",
+            "ДОНЕЦКАЯ, ГОРНЯЦКИЙ, МАКЕЕВКА",
+            "ОДЕСЬКА, СУВОРОВСЬКИЙ, ОДЕСА",
+            "ОДЕСЬКА, ЛИМАНСЬКИЙ, КАЇРИ",
+            "ДОНЕЦКАЯ, ГОРЛОВКА",
+            "ДЖАНКОЙСКИЙ, ЛУГАНСКОЕ",
+            "ДОНЕЦКАЯ, ШАХТЕРСК",
+            "ДОНЕЦКАЯ, ДОНЕЦК",
+            "ДОНЕЦКАЯ, КОНСТАНТИНОВКА",
+            "ЛУГАНСК",
+            "ЧЕРКАССКАЯ, СМЕЛЯНСКИЙ, СМЕЛА",
+            "ЧЕРКАССКАЯ, ЧЕРКАССКИЙ, ЧЕРКАССЫ",
+            "САКСКИЙ, ШЕЛКОВИЧНОЕ",
+            "ХЕРСОНСЬКА, КОРАБЕЛЬНИЙ, ХЕРСОН",
+            "ЧЕРКАССКАЯ, ЗВЕНИГОРОДСКИЙ, ЗВЕНИГОРОДКА",
+            "СИМФЕРОПОЛЬ",
+            "СУМСЬКА, СУМИ",
+            "СУМСЬКА, БІЛОПІЛЬСЬКИЙ, БІЛОПІЛЛЯ",
+            "ЗАКАРПАТСКАЯ, РАХОВ",
+            "ЗАКАРПАТСКАЯ, УЖГОРОД",
+            "ЗАКАРПАТСКАЯ, МУКАЧЕВСКИЙ, В.ЛУЧКИ",
+            "ХАРЬКОВСКАЯ, НЕИЗВЕСТНО, ХАРЬКОВ",
+            "ХАРЬКОВСКАЯ, ХАРЬКОВ",
+            "ЛУГАНСКАЯ, ЛУГАНСК",
+            "ТЕРНОПІЛЬСЬКА, БЕРЕЖАНСЬКИЙ, БЕРЕЖАНИ",
+            "ЛЬВІВСЬКА, ЛЬВІВ",
+            "ХАРКІВСЬКА, ЧУГУЇВСЬКИЙ, ЧКАЛОВСЬКЕ",
+            "ЧЕРНИГОВСКАЯ, БОРЗНЯНСКИЙ, БОРЗНА",
+            "ДОНЕЦКАЯ, УГЛЕГОРСК",
+            "АКИМОВСКИЙ, ЕФРЕМОВКА",
+            "ЗАПОРОЖЬЕ",
+            "КИЕВСКАЯ, КИЕВ",
+            "ЛЬВОВСКАЯ, ЛЬВОВ",
+            "ХАРЬКОВСКАЯ, ЧЕРВОНОЗАВОДСКИЙ, ХАРЬКОВ",
+            "ПЕРВОМАЙСК",
+            "ДОНЕЦКАЯ, СЕЛИДОВО",
+            "ДОНЕЦКАЯ",
+            "РОВЕНСКАЯ, РОВНО",
+            "ПОЛТАВСЬКА, ПОЛТАВА",
+            "КРАСНОГВАРДЕЙСКИЙ, АМУРСКОЕ",
+            "НИЖНЕГОРСКИЙ, ЯСТРЕБКИ",
+            "ЧЕРКАССЫ",
+            "КИЕВСКАЯ, ВАСИЛЬКОВСКИЙ, КАЛИНОВКА",
+            "КРЫМ, КРАСНОПЕРЕКОПСК",
+            "ЧЕРКАССКАЯ, СМЕЛА",
+            "ДНЕПРОПЕТРОВСКАЯ, ДНЕПРОПЕТРОВСК",
+            "КРЫМ, ЛЕНИНСКИЙ, ЛЕНИНСКОЕ",
+            "КРЫМ, ДЖАНКОЙ",
+            "ВИННИЦКАЯ, ТУЛЬЧИНСКИЙ, КИРНАСОВКА",
+            "ЧЕРНИГОВСКАЯ, БАХМАЧСКИЙ, ГОЛЕНКА",
+            "ХАРКІВСЬКА, ЛЮБОТИН",
+            "МИКОЛАЇВСЬКА, МИКОЛАЇВ",
+            "ДОНЕЦКАЯ, ДРУЖКОВКА",
+            "АЛУШТА",
+            "КРЫМ, СИМФЕРОПОЛЬ",
+            "ОДЕССКАЯ, KOMИHTEPHOBCKИЙ",
+            "ХАРКІВСЬКА, ДЕРГАЧІ",
+            "ДЖАНКОЙСКИЙ, ДЖАНКОЙ",
+            "ДОНЕЦКАЯ, ТОРЕЗ",
+            "ЛУГАНСКАЯ, АНТРАЦИТ",
+            "ХМЕЛЬНИЦКАЯ, ХМЕЛЬНИЦКИЙ",
+            "ВИННИЦА",
+            "ЛЬВОВСКАЯ, ЯВОРОВСКИЙ, СТРАДЧ",
+            "КИЕВСКАЯ, БЕЛАЯ ЦЕРКОВЬ",
+            "КЕРЧЬ",
+            "ДОНЕЦКАЯ, ДОБРОПОЛЬСКИЙ, ДОБРОПОЛЬЕ",
+            "ЗАКАРПАТСКАЯ, МЕЖГОРСКИЙ, НЕГРОВЕЦ",
+            "ЗАПОРОЖСКАЯ, ОРЕХОВСКИЙ, СЧАСТЛИВОЕ",
+            "КИЕВСКАЯ, ВЫШГОРОДСКИЙ, ТАРАСОВЩИНА",
+            "ЗАПОРОЖСКАЯ, МЕЛИТОПОЛЬ",
+            "ЧЕРНИГОВСКАЯ, ЧЕРНИГОВ",
+            "ЕВПАТОРИЯ",
+            "МОСКВА",
+            "ДОНЕЦКАЯ, ЯСИНОВАТАЯ",
+            "ЯЛТА",
+            "БАХЧИСАРАЙСКИЙ, УГЛОВОЕ",
+            "КРАСНОПЕРЕКОПСКИЙ, ТАНКОВОЕ",
+            "ЛЬВОВ",
+            "ХАРКІВСЬКА, ІЗЮМ",
+            "ХАРКІВСЬКА, ПЕРВОМАЙСЬКИЙ",
+            "ЗАПОРОЖСКАЯ, ЗАПОРОЖЬЕ",
+            "ТЕРНОПОЛЬСКАЯ, ТЕРНОПОЛЬ",
+            "ХМЕЛЬНИЦКАЯ, КАМЕНЕЦ-ПОДОЛЬСКИЙ",
+            "ЗАКАРПАТСКАЯ, УЖГОРОДСКИЙ, УЖГОРОД",
+            "РОВЕНСКАЯ, ДУБЕНСКИЙ, ДУБНО",
+            "ЗАПОРОЖСКАЯ, ВАСИЛЬЕВСКИЙ, ДНЕПРОРУДНЫЙ",
+            "ЛЬВОВСКАЯ, САМБОР",
+            "ДОНЕЦКАЯ, КРАСНОАРМЕЙСК",
+            "СЕВАСТОПОЛЬ",
+            "НИЖНЕГОРСКИЙ, ЕМЕЛЬЯНОВКА",
+            "КРАСНОГВАРДЕЙСКИЙ, ПЕТРОВКА",
+            "СИМФЕРОПОЛЬСКИЙ, ШИРОКОЕ",
+            "КРЫМ, АРМЯНСК",
+            "ДОНЕЦКАЯ, АМВРОСИЕВКА",
+            "НИЖНЕГОРСКИЙ, КУКУРУЗНОЕ",
+            "СОВЕТСКИЙ, АЛМАЗНОЕ",
+            "ФЕОДОСИЯ",
+            "ДОНЕЦКАЯ, СНЕЖНОЕ",
+            "СУДАК",
+            "САКСКИЙ, САКИ",
+            "ЛЬВОВСКАЯ",
+            "КИЕВСКАЯ, ВАСИЛЬКОВ",
+            "ТЕРНОПОЛЬСКАЯ, ЧОРТКОВСКИЙ, ЧОРТКОВ",
+            "ХМЕЛЬНИЦКАЯ, ХМЕЛЬНИЦКИЙ, ХМЕЛЬНИЦКИЙ",
+            "КРАСНОПЕРЕКОПСКИЙ, КРАСНОПЕРЕКОПСК",
+            "БЕЛОГОРСКИЙ, ЦВЕТОЧНОЕ",
+            "ЗАПОРОЖСКАЯ",
+            "ДОНЕЦКАЯ, КИЕВСКИЙ, ДОНЕЦК",
+            "ХЕРСОНСКАЯ, ИВАНОВСКИЙ, ЛЮБИМОВКА",
+            "ЗАПОРОЖСКАЯ, БЕРДЯНСКИЙ, НОВОТРОИЦКОЕ",
+            "ДОНЕЦКАЯ, МАРИУПОЛЬ",
+            "РАЗДОЛЬНЕНСКИЙ, БРЯНСКОЕ",
+            "СВЕРДЛОВСК",
+            "БАХЧИСАРАЙСКИЙ, БАХЧИСАРАЙ",
+            "ОДЕСЬКА, БІЛГОРОД-ДНІСТРОВСЬКИЙ, ШАБО",
+            "ЛУГАНСКАЯ, СВЕРДЛОВСК",
+            "УКРАИНА, ФЕОДОСИЯ",
+            "ХЕРСОНСЬКА, БІЛОЗЕРСЬКИЙ, ДАР\'ЇВКА",
+            "ЧЕРНИГОВСКАЯ, НОВГОРОД-СЕВЕРСКИЙ, НОВГОРОД-СЕВЕРСКИЙ",
+            "ЗАПОРОЖСКАЯ, ТОКМАКСКИЙ, НОВОГОРЬЕВКА",
+            "ДОНЕЦКАЯ, ЕНАКИЕВО",
+            "ЛУГАНСКАЯ, ПЕРВОМАЙСК",
+            "ДОНЕЦКАЯ, ШАХТЕРСКИЙ, ШАХТЕРСК",
+            "ДОНЕЦКАЯ, КУРАХОВО",
+            "ДОНЕЦКАЯ, ХАРЦЫЗСК",
+            "ДОНЕЦКАЯ, НОВОАЗОВСК",
+            "КРАСНОГВАРДЕЙСКИЙ, КРАСНОГВАРДЕЙСКОЕ",
+            "КИЕВСКАЯ, ЯГОТИНСКИЙ, БОГДАНОВКА",
+            "ЛЕНИНСКИЙ, КАЛИНОВКА",
+            "ДОНЕЦКАЯ, Ц-ГОРОДСКОЙ, ГОРЛОВКА",
+            "ДОНЕЦКАЯ, КИРОВСКИЙ, ДОНЕЦК",
+            "ДОНЕЦКАЯ, АРТЕМОВСК",
+            "ВОЛЫНСКАЯ, КАМЕНЬ-КАШИРСКИЙ, ЛУЦК",
+            "ОДЕСЬКА, ПОДІЛЬСЬК",
+            "ДОНЕЦКАЯ, КИРОВСКОЕ",
+            "НЕИЗВЕСТНО, НЕИЗВЕСТНО, ХАРЬКОВ",
+            "УКРАИНА",
+            "МЕСТИЙСКИЙ, ЗШЕРА",
+            "ДОНЕЦКАЯ, ТЕЛЬМАНОВСКИЙ, КОНЬКОВО",
+            "СЕВЕРНАЯ ОСЕТИЯАЯ, ВЛАДИКАВКАЗ",
+            "СТАХАНОВ",
+            "ДОНЕЦКАЯ, ТЕЛЬМАНОВО",
+            "ЧЕРНІВЕЦЬКА, ЧЕРНІВЦІ",
+            "КЕРЧЬ, НЕИЗВЕСТНО",
+            "ПОЛТАВСЬКА, КРЕМЕНЧУК",
+            "КРАСНЫЙ ЛУЧ",
+            "КИЕВСКАЯ, СЛАВУТИЧ",
+            "КИЕВСКАЯ, ВАСИЛЬКОВСКИЙ, ПЛЕСЕЦКОЕ",
+            "ДНЕПРОПЕТРОВСКАЯ, КРИВОЙ РОГ",
+            "ДОНЕЦКАЯ, ДИМИТРОВ",
+            "ІВАНО-ФРАНКІВСЬКА, ІВАНО-ФРАНКІВСЬК",
+            "ДОНЕЦКАЯ, НОВОГРОДОВКА",
+            "ЛУГАНСКАЯ, КРАСНОДОН",
+            "САКСКИЙ, МИТЯЕВО",
+            "ЧЕРНОВИЦКАЯ, ГЛЫБОКСКИЙ, МОЛОДИЯ",
+            "ХЕРСОНСЬКА, БІЛОЗЕРСЬКИЙ, СТАНІСЛАВ",
+            "РАЗДОЛЬНЕНСКИЙ, СЕНОКОСНОЕ",
+            "СИМФЕРОПОЛЬСКИЙ, МИРНОЕ"});
+            this.LostPlace_ComboBox.Location = new System.Drawing.Point(133, 369);
+            this.LostPlace_ComboBox.Name = "LostPlace_ComboBox";
+            this.LostPlace_ComboBox.Size = new System.Drawing.Size(467, 33);
+            this.LostPlace_ComboBox.TabIndex = 32;
+            // 
+            // ArticleCrim_Label
+            // 
+            this.ArticleCrim_Label.AutoSize = true;
+            this.ArticleCrim_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ArticleCrim_Label.Location = new System.Drawing.Point(2, 409);
+            this.ArticleCrim_Label.Name = "ArticleCrim_Label";
+            this.ArticleCrim_Label.Size = new System.Drawing.Size(137, 29);
+            this.ArticleCrim_Label.TabIndex = 33;
+            this.ArticleCrim_Label.Text = "ArticleCrim:";
+            // 
+            // ArticleCrim_TextBox
+            // 
+            this.ArticleCrim_TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ArticleCrim_TextBox.Location = new System.Drawing.Point(145, 409);
+            this.ArticleCrim_TextBox.Name = "ArticleCrim_TextBox";
+            this.ArticleCrim_TextBox.Size = new System.Drawing.Size(262, 30);
+            this.ArticleCrim_TextBox.TabIndex = 34;
+            // 
+            // Restraint_Label
+            // 
+            this.Restraint_Label.AutoSize = true;
+            this.Restraint_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Restraint_Label.Location = new System.Drawing.Point(2, 449);
+            this.Restraint_Label.Name = "Restraint_Label";
+            this.Restraint_Label.Size = new System.Drawing.Size(114, 29);
+            this.Restraint_Label.TabIndex = 35;
+            this.Restraint_Label.Text = "Restraint:";
+            // 
+            // Contact_Label
+            // 
+            this.Contact_Label.AutoSize = true;
+            this.Contact_Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Contact_Label.Location = new System.Drawing.Point(2, 489);
+            this.Contact_Label.Name = "Contact_Label";
+            this.Contact_Label.Size = new System.Drawing.Size(100, 29);
+            this.Contact_Label.TabIndex = 36;
+            this.Contact_Label.Text = "Contact:";
+            // 
+            // Restraint_ComboBox
+            // 
+            this.Restraint_ComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Restraint_ComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Restraint_ComboBox.FormattingEnabled = true;
+            this.Restraint_ComboBox.Items.AddRange(new object[] {
+            "НЕ ЗАСТОСОВУВАВСЯ"});
+            this.Restraint_ComboBox.Location = new System.Drawing.Point(122, 449);
+            this.Restraint_ComboBox.Name = "Restraint_ComboBox";
+            this.Restraint_ComboBox.Size = new System.Drawing.Size(478, 33);
+            this.Restraint_ComboBox.TabIndex = 37;
+            // 
+            // Contact_TextBox
+            // 
+            this.Contact_TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Contact_TextBox.Location = new System.Drawing.Point(108, 488);
+            this.Contact_TextBox.Name = "Contact_TextBox";
+            this.Contact_TextBox.Size = new System.Drawing.Size(492, 30);
+            this.Contact_TextBox.TabIndex = 38;
+            // 
+            // Save_Button
+            // 
+            this.Save_Button.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.Save_Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Save_Button.Location = new System.Drawing.Point(1085, 473);
+            this.Save_Button.Name = "Save_Button";
+            this.Save_Button.Size = new System.Drawing.Size(153, 45);
+            this.Save_Button.TabIndex = 39;
+            this.Save_Button.Text = "Save";
+            this.Save_Button.UseVisualStyleBackColor = true;
+            this.Save_Button.Click += new System.EventHandler(this.Save_Button_Click);
+            // 
+            // AddForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1249, 526);
+            this.Controls.Add(this.Save_Button);
+            this.Controls.Add(this.Contact_TextBox);
+            this.Controls.Add(this.Restraint_ComboBox);
+            this.Controls.Add(this.Contact_Label);
+            this.Controls.Add(this.Restraint_Label);
+            this.Controls.Add(this.ArticleCrim_TextBox);
+            this.Controls.Add(this.ArticleCrim_Label);
+            this.Controls.Add(this.LostPlace_ComboBox);
+            this.Controls.Add(this.LostPlace_Label);
+            this.Controls.Add(this.LostDate_MaskedTextBox);
+            this.Controls.Add(this.LostDate_Label);
+            this.Controls.Add(this.Sex_ComboBox);
+            this.Controls.Add(this.Sex_Label);
+            this.Controls.Add(this.BirthDate_MaskedTextBox);
+            this.Controls.Add(this.BirthDate_Label);
+            this.Controls.Add(this.MiddleNameE_TextBox);
+            this.Controls.Add(this.MiddleNameE_Label);
+            this.Controls.Add(this.LastNameE_TextBox);
+            this.Controls.Add(this.LastNameE_Label);
+            this.Controls.Add(this.FirstNameE_TextBox);
+            this.Controls.Add(this.FirstNameE_Label);
+            this.Controls.Add(this.MiddleNameR_TextBox);
+            this.Controls.Add(this.MiddleNameR_Label);
+            this.Controls.Add(this.LastNameR_TextBox);
+            this.Controls.Add(this.LastNameR_Label);
+            this.Controls.Add(this.FirstNameR_TextBox);
+            this.Controls.Add(this.FirstNameR_Label);
+            this.Controls.Add(this.MiddleNameU_TextBox);
+            this.Controls.Add(this.MiddleNameU_Label);
+            this.Controls.Add(this.LastNameU_TextBox);
+            this.Controls.Add(this.LastNameU_Label);
+            this.Controls.Add(this.FirstNameU_TextBox);
+            this.Controls.Add(this.FirstNameU_Label);
+            this.Controls.Add(this.Category_ComboBox);
+            this.Controls.Add(this.Category_Label);
+            this.Controls.Add(this.OVD_ComboBox);
+            this.Controls.Add(this.OVD_Label);
+            this.Controls.Add(this.Id_Label);
+            this.Controls.Add(this.Id_TextBox);
+            this.Name = "AddForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Add";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.TextBox Id_TextBox;
+        private System.Windows.Forms.Label Id_Label;
+        private System.Windows.Forms.Label OVD_Label;
+        private System.Windows.Forms.ComboBox OVD_ComboBox;
+        private System.Windows.Forms.Label Category_Label;
+        private System.Windows.Forms.ComboBox Category_ComboBox;
+        private System.Windows.Forms.Label FirstNameU_Label;
+        private System.Windows.Forms.TextBox FirstNameU_TextBox;
+        private System.Windows.Forms.Label LastNameU_Label;
+        private System.Windows.Forms.TextBox LastNameU_TextBox;
+        private System.Windows.Forms.Label MiddleNameU_Label;
+        private System.Windows.Forms.TextBox MiddleNameU_TextBox;
+        private System.Windows.Forms.TextBox MiddleNameR_TextBox;
+        private System.Windows.Forms.Label MiddleNameR_Label;
+        private System.Windows.Forms.TextBox LastNameR_TextBox;
+        private System.Windows.Forms.Label LastNameR_Label;
+        private System.Windows.Forms.TextBox FirstNameR_TextBox;
+        private System.Windows.Forms.Label FirstNameR_Label;
+        private System.Windows.Forms.TextBox MiddleNameE_TextBox;
+        private System.Windows.Forms.Label MiddleNameE_Label;
+        private System.Windows.Forms.TextBox LastNameE_TextBox;
+        private System.Windows.Forms.Label LastNameE_Label;
+        private System.Windows.Forms.TextBox FirstNameE_TextBox;
+        private System.Windows.Forms.Label FirstNameE_Label;
+        private System.Windows.Forms.Label BirthDate_Label;
+        private System.Windows.Forms.MaskedTextBox BirthDate_MaskedTextBox;
+        private System.Windows.Forms.Label Sex_Label;
+        private System.Windows.Forms.ComboBox Sex_ComboBox;
+        private System.Windows.Forms.Label LostDate_Label;
+        private System.Windows.Forms.MaskedTextBox LostDate_MaskedTextBox;
+        private System.Windows.Forms.Label LostPlace_Label;
+        private System.Windows.Forms.ComboBox LostPlace_ComboBox;
+        private System.Windows.Forms.Label ArticleCrim_Label;
+        private System.Windows.Forms.TextBox ArticleCrim_TextBox;
+        private System.Windows.Forms.Label Restraint_Label;
+        private System.Windows.Forms.Label Contact_Label;
+        private System.Windows.Forms.ComboBox Restraint_ComboBox;
+        private System.Windows.Forms.TextBox Contact_TextBox;
+        private System.Windows.Forms.Button Save_Button;
+    }
+}
